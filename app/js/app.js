@@ -19,7 +19,51 @@ app.config(function($routeProvider) {
 	});
 });
 
+//controlador de pregunta, que controla toda la lógica
+app.controller('questionController', function($scope, Questions, $location, Score) {
+	$scope.questions = Questions;
+	$scope.numberQuestion = 1;
+	$scope.question = $scope.questions[$scope.numberQuestion-1];
+	$scope.checked = false;
+	var responses = [];
 
+	$scope.chooseKey = function(){
+		angular.forEach($scope.question.keys, function(value, key) {
+		  	value.active = false;
+		});
+		$scope.checked = true;
+		this.key.active = true;
+	};
+
+	$scope.pass = function() {
+		if($scope.numberQuestion < $scope.questions.length){
+			$scope.numberQuestion++;
+			$scope.question = $scope.questions[$scope.numberQuestion-1];
+			$scope.checked = false;
+		}
+	};
+
+	$scope.qualify = function() {
+		angular.forEach($scope.question.keys, function(value, key) {
+			if (value.active)
+				responses.push({id:$scope.question.id,key:value.id});
+		});
+		$scope.pass();
+		$scope.checked = false;
+	};
+
+	$scope.endExam = function() {
+		$scope.qualify();
+		angular.forEach($scope.questions, function(question, i) {
+			angular.forEach(responses, function(item,j){
+				if(question.id == item.id && question.response == item.key){
+					Score.score = Score.score + 2;
+				}
+			});
+		});
+		$location.url('/resultado');
+	};
+});
 
 
 
