@@ -65,7 +65,10 @@ app.controller('questionController', function($scope, Questions, $location, Scor
 	};
 });
 
-
+//servicio que permite psar la variable "score entre el controlador de examen y resultado"
+app.factory('Score', function(){
+	return {score: 0};
+});
 
 //Fabrica que retorna la lista de preguntas
 app.factory('Questions', function(){
