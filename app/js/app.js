@@ -65,6 +65,12 @@ app.controller('questionController', function($scope, Questions, $location, Scor
 	};
 });
 
+//controlador de resultado
+app.controller('resultController', function($scope, Score) {
+	$scope.score = Score.score;
+
+});
+
 //servicio que permite psar la variable "score entre el controlador de examen y resultado"
 app.factory('Score', function(){
 	return {score: 0};
